@@ -5,7 +5,7 @@ const app = express();
 app.use(cors()); // 👈 add this
 app.use(express.json());
 
-let messages = [];
+let messages = "chickentest";
 
 // GET messages
 app.get("/messages", (req, res) => {
