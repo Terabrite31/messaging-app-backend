@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors"); // 👈 add this
-
 const app = express();
 
 app.use(cors()); // 👈 add this
@@ -22,6 +21,4 @@ app.post("/send", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`);
-});
+app.listen(PORT);
