@@ -5,12 +5,32 @@ const app = express();
 app.use(cors()); // 👈 add this
 app.use(express.json());
 
-let messages = "chickentest";
+let messages = "chickentest2";
 
 // GET messages
 app.get("/messages", (req, res) => {
     res.json(messages);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // POST message
 app.post("/send", (req, res) => {
