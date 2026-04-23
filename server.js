@@ -11,12 +11,13 @@ app.use(express.json());
 app.post("/test-email", async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
+  let number = Math.random();
   try {
     await resend.emails.send({
       from: "konnnsupport@konnn.com",
       to: email,
       subject: "for " + email,
-      html: "<h1>Congratulations! you are officially the ########## member, wait for your account process.</h1>"
+      html:   <h1>verification code ${number}</h1>  
     });
 
     res.json("sent");
