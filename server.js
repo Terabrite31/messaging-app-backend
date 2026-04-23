@@ -13,7 +13,7 @@ app.post("/test-email", async (req, res) => {
   let password = req.body.password;
   try {
     await resend.emails.send({
-      from: "team@konnn.com",
+      from: "support@konnn.com",
       to: email,
       subject: "for" + email,
       html: "<h1>Congratulations! you are officially the golden gays member, wait for your account process.</h1>"
