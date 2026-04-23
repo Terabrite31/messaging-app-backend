@@ -1,8 +1,21 @@
 const express = require("express");
-const cors = require("cors"); // 👈 add this
+const cors = require("cors");
+const postgres = require("postgres");
 const app = express();
+const sql = postgres(process.env.DATABASE_URL);
 
-app.use(cors()); // 👈 add this
+async function initDB() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS accounts (
+      id SERIAL PRIMARY KEY,
+      email TEXT,
+      password TEXT
+    )
+  `;
+}
+
+initDB();
+app.use(cors()); 
 app.use(express.json());
 
 let messages = "chickentest2";
@@ -17,26 +30,13 @@ app.get("/messages", (req, res) => {
 
 
 
+let textstore = "";
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// POST message
 app.post("/send", (req, res) => {
     const { text } = req.body;
-    messages.push(text);
-    res.json({ success: true });
+    textstore = text;
+    res.json({textstore });
 });
 
 const PORT = process.env.PORT || 3000;
