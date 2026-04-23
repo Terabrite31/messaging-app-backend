@@ -15,7 +15,7 @@ app.post("/test-email", async (req, res) => {
     await resend.emails.send({
       from: "onboarding@resend.dev",
       to: email,
-      subject: "test email",
+      subject: "for" + email,
       html: "<h1>the golden gays</h1>"
     });
 
