@@ -3,6 +3,28 @@ const cors = require("cors");
 const postgres = require("postgres");
 const app = express();
 const sql = postgres(process.env.DATABASE_URL);
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
+app.use(cors()); 
+app.use(express.json());
+
+app.get("/test-email", async (req, res) => {
+  try {
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: "jasontorrevillas57@gmail.com",
+      subject: "test email",
+      html: "<h1>the golden gays</h1>"
+    });
+
+    res.json("sent");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json("error");
+  }
+});
+
+
 
 async function initDB() {
   await sql`
@@ -15,29 +37,9 @@ async function initDB() {
 }
 
 initDB();
-app.use(cors()); 
-app.use(express.json());
-
-let messages = "chickentest2";
-
-// GET messages
-app.get("/messages", (req, res) => {
-    res.json(messages);
-});
 
 
 
-
-
-
-let textstore = "";
-
-
-app.post("/send", (req, res) => {
-    const { text } = req.body;
-    textstore = text;
-    res.json({textstore });
-});
 
 const PORT = process.env.PORT || 3000;
 
