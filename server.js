@@ -15,7 +15,7 @@ app.post("/test-email", async (req, res) => {
     await resend.emails.send({
       from: "team@konnn.com",
       to: email,
-      subject: "for " + email,
+      subject: "for" + email,
       html: "<h1>we have received your request</h1>"
     });
 
