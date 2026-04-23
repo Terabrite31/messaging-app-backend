@@ -13,7 +13,7 @@ app.post("/test-email", async (req, res) => {
   let password = req.body.password;
   try {
     await resend.emails.send({
-      from: "support@konnn.com",
+      from: "team@konnn.com",
       to: email,
       subject: "for " + email,
       html: "<h1>we have received your request</h1>"
