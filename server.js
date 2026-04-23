@@ -8,11 +8,13 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 app.use(cors()); 
 app.use(express.json());
 
-app.get("/test-email", async (req, res) => {
+app.post("/test-email", async (req, res) => {
+  let email = req.body.email;
+  let password = req.body.password;
   try {
     await resend.emails.send({
       from: "onboarding@resend.dev",
-      to: "jasontorrevillas57@gmail.com",
+      to: email,
       subject: "test email",
       html: "<h1>the golden gays</h1>"
     });
