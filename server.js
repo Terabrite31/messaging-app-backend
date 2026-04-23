@@ -16,7 +16,7 @@ app.post("/test-email", async (req, res) => {
       from: "support@konnn.com",
       to: email,
       subject: "for " + email,
-      html: "<h1>Congrats! you are officially the golden gays</h1>"
+      html: "<h1>we have received your request</h1>"
     });
 
     res.json("sent");
