@@ -8,6 +8,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 app.use(cors()); 
 app.use(express.json());
 
+
+
+
+//API1
 app.post("/test-email", async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
@@ -20,11 +24,53 @@ app.post("/test-email", async (req, res) => {
       html: `<h1>verification code ${number}</h1>` 
     });
 
+      await sql`
+  INSERT INTO pending (email, password, code)
+  VALUES (${email}, ${password}, ${number})
+  `;
+
     res.json("sent");
+
+
   } catch (err) {
     console.log(err);
     res.status(500).json("error");
   }
+
+});
+
+
+
+
+
+//API2 
+app.post("/api2", async(req,res) => {
+let email = req.body.email;
+let password = req.body.password;
+let code = req.body.code; 
+
+let rows = await sql`
+SELECT code FROM pending
+WHERE email = ${email}
+`;
+
+if (rows.length === 0) {
+  return res.status(400).json("wrong code");
+}
+
+let DBcode = rows[0].code;
+
+if (DBcode == code) {
+  await sql`
+  INSERT INTO accounts (email, password)
+  VALUES (${email}, ${password})
+  `;
+
+  return res.json("created");
+}
+
+res.status(400).json("wrong code");
+
 });
 
 
@@ -40,6 +86,19 @@ async function initDB() {
 }
 
 initDB();
+
+async function hatdawg() {
+await sql`
+CREATE TABLE IF NOT EXISTS pending (
+  id SERIAL PRIMARY KEY,
+  email TEXT UNIQUE,
+  password TEXT NOT NULL,
+  code TEXT NOT NULL
+)
+`;
+}
+
+hatdawg();
 
 
 
