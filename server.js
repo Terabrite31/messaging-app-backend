@@ -14,7 +14,7 @@ app.post("/test-email", async (req, res) => {
   let number = Math.floor(100000 + Math.random() * 900000);
   try {
     await resend.emails.send({
-      from: "konnnsupport@konnn.com",
+      from: "support@konnn.com",
       to: email,
       subject: "for " + email,
       html: `<h1>verification code ${number}</h1>` 
