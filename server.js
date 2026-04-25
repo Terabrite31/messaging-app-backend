@@ -67,11 +67,39 @@ if (DBcode == code) {
   `;
 
   return res.json("created");
+
 }
 
 res.status(400).json("wrong code");
 
 });
+
+
+
+//LOGIN API 
+
+app.post("/loginapi", async(req,res) => {
+let email = req.body.email;
+let password = req.body.password;
+
+let rows = await sql`
+SELECT password FROM accounts
+WHERE email = ${email}
+`;
+
+if (rows.length === 0) {
+  return res.status(400).json("wrong email");
+}
+
+let DBpassword = rows[0].password
+
+if (DBpassword == password) {
+  res.json("correct");
+}
+
+
+}
+)
 
 
 
