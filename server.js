@@ -16,6 +16,15 @@ app.post("/test-email", async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
   let number = Math.floor(100000 + Math.random() * 900000);
+  let rows = await sql`
+SELECT emails FROM accounts
+WHERE email = ${email}
+`;
+
+if (rows.length === 1) {
+  res.json("email already exists");
+} 
+
   try {
     await resend.emails.send({
       from: "support@konnn.com",
@@ -34,7 +43,7 @@ app.post("/test-email", async (req, res) => {
 
   } catch (err) {
     console.log(err);
-    res.status(500).json("error");
+    res.status(500).json("email doesnt exist");
   }
 
 });
