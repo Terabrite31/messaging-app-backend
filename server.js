@@ -13,6 +13,7 @@ app.use(express.json());
 
 //API1
 app.post("/test-email", async (req, res) => {
+  let username = req.body.username;
   let email = req.body.email;
   let password = req.body.password;
   let number = Math.floor(100000 + Math.random() * 900000);
@@ -34,8 +35,8 @@ if (rows.length === 1) {
     });
 
       await sql`
-  INSERT INTO pending (email, password, code)
-  VALUES (${email}, ${password}, ${number})
+  INSERT INTO pending (username, email, password, code)
+  VALUES (${username}, ${email}, ${password}, ${number})
   `;
 
     res.json("sent");
@@ -54,6 +55,7 @@ if (rows.length === 1) {
 
 //API2 
 app.post("/api2", async(req,res) => {
+let username = req.body.username;
 let email = req.body.email;
 let password = req.body.password;
 let code = req.body.code; 
@@ -71,8 +73,8 @@ let DBcode = rows[0].code;
 
 if (DBcode == code) {
   await sql`
-  INSERT INTO accounts (email, password)
-  VALUES (${email}, ${password})
+  INSERT INTO accounts (username, email, password)
+  VALUES (${username}, ${email}, ${password})
   `;
 
   return res.json("created");
@@ -116,6 +118,7 @@ async function initDB() {
   await sql`
     CREATE TABLE IF NOT EXISTS accounts (
       id SERIAL PRIMARY KEY,
+      username TEXT,
       email TEXT,
       password TEXT
     )
@@ -128,6 +131,7 @@ async function hatdawg() {
 await sql`
 CREATE TABLE IF NOT EXISTS pending (
   id SERIAL PRIMARY KEY,
+  username TEXT,
   email TEXT UNIQUE,
   password TEXT NOT NULL,
   code TEXT NOT NULL
