@@ -17,7 +17,7 @@ app.post("/test-email", async (req, res) => {
   let password = req.body.password;
   let number = Math.floor(100000 + Math.random() * 900000);
   let rows = await sql`
-SELECT emails FROM accounts
+SELECT email FROM accounts
 WHERE email = ${email}
 `;
 
