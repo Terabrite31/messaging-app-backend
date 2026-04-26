@@ -73,7 +73,7 @@ if (DBcode == code) {
   VALUES (${username}, ${email}, ${password})
   `;
 
-  return res.json("created");
+  res.json("created");
 
 }
 
