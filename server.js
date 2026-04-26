@@ -102,6 +102,8 @@ let DBpassword = rows[0].password
 
 if (DBpassword == password) {
   res.json("correct");
+} else {
+  res.json("wrong");
 }
 
 
