@@ -23,7 +23,7 @@ WHERE email = ${email}
 `;
 
 if (rows.length === 1) {
-  res.json("email already exists");
+  return res.json("email already exists");
 } 
 
   try {
