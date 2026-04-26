@@ -108,9 +108,11 @@ if (DBpassword == password) {
       username: DBusername
     });
 } else {
-  res.json("wrong");
+ return res.json({
+    status: "wrong"
+});
 }
-})
+});
 
 
 
