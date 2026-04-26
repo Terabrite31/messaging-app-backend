@@ -89,8 +89,9 @@ app.post("/loginapi", async(req,res) => {
 let email = req.body.email;
 let password = req.body.password;
 
+
 let rows = await sql`
-SELECT password FROM accounts
+SELECT username, password FROM accounts
 WHERE email = ${email}
 `;
 
@@ -98,17 +99,18 @@ if (rows.length === 0) {
   return res.status(400).json("wrong email");
 }
 
-let DBpassword = rows[0].password
+let DBpassword = rows[0].password;
+let DBusername = rows[0].username;
 
 if (DBpassword == password) {
-  res.json("correct");
+    return res.json({
+      status: "correct",
+      username: DBusername
+    });
 } else {
   res.json("wrong");
 }
-
-
-}
-)
+})
 
 
 
