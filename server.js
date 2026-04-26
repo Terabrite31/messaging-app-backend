@@ -60,11 +60,6 @@ let email = req.body.email;
 let password = req.body.password;
 let code = req.body.code; 
 
-let rows = await sql`
-SELECT code FROM pending
-WHERE email = ${email}
-`;
-
 
 let DBcode = rows[0].code;
 
