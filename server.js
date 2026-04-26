@@ -65,9 +65,6 @@ SELECT code FROM pending
 WHERE email = ${email}
 `;
 
-if (rows.length === 0) {
-  return res.status(400).json("wrong code");
-}
 
 let DBcode = rows[0].code;
 
