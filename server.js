@@ -11,6 +11,12 @@ app.use(express.json());
 
 
 
+
+
+
+
+
+
 //API1
 app.post("/test-email", async (req, res) => {
   let username = req.body.username;
@@ -53,6 +59,14 @@ if (rows.length === 1) {
 
 
 
+
+
+
+
+
+
+
+
 //API2 
 app.post("/api2", async(req,res) => {
 let username = req.body.username;
@@ -80,6 +94,18 @@ if (DBcode == code) {
 res.status(400).json("wrong code");
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -116,18 +142,80 @@ if (DBpassword == password) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+//add
+
+app.post("/add", async(req, res) => {
+let email = req.body.email;
+let REmail = req.body.REmail;
+
+let rows = await sql`
+SELECT email FROM  accounts
+WHERE email = ${REmail}
+`;
+
+if (rows.length === 0) {
+ return res.json("the email doesnt exists")
+}
+
+await sql`
+INSERT INTO pendingpwends (sender, receiver)
+VALUES (${email}, ${REmail})
+`;
+
+res.json("sent");
+
+
+
+
+
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 async function initDB() {
   await sql`
     CREATE TABLE IF NOT EXISTS accounts (
       id SERIAL PRIMARY KEY,
       username TEXT,
       email TEXT,
+      friends INTEGER DEFAULT 0,
       password TEXT
     )
   `;
 }
 
 initDB();
+
+
 
 async function hatdawg() {
 await sql`
@@ -142,6 +230,16 @@ CREATE TABLE IF NOT EXISTS pending (
 }
 
 hatdawg();
+
+
+async function pendingpwends() {
+  await sql`
+  CREATE TABLE IF NOT EXISTS pendingpwends (
+  sender TEXT,
+  receiver TEXT
+  )
+  `;
+}
 
 
 
