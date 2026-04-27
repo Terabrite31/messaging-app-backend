@@ -238,7 +238,6 @@ res.json(data)
 
 
 
-
 async function initDB() {
   await sql`
     CREATE TABLE IF NOT EXISTS accounts (
