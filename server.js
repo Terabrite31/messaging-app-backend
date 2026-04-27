@@ -169,16 +169,54 @@ if (rows.length === 0) {
  return res.json("the email doesnt exists")
 }
 
-await sql`
-INSERT INTO pendingpwends (sender, receiver)
-VALUES (${email}, ${REmail})
+
+let rowss = await sql`
+SELECT pendingfriends FROM accounts
+WHERE email = ${REmail}
 `;
+
+let data = rowss[0].pendingfriends;
+
+data++;
+
+await sql`
+INSERT INTO pendingpwends (sender, receiver, number)
+VALUES (${email}, ${REmail}, ${data})
+
+`;
+
+await sql`
+UPDATE accounts
+SET pendingfriends = ${data}
+WHERE email = ${REmail}
+`;
+
 
 res.json("sent");
 
 
 
 
+
+})
+
+
+
+app.post("/accept", async(req,res) => {
+let email = req.body.email;
+
+let answer = await sql`
+SELECT sender FROM pendingpwends
+WHERE receiver = ${email}
+`;
+
+  if (answer.length === 0) {
+    return res.json("no pending requests");
+  }
+
+let data = answer[0].sender;
+
+res.json(data)
 
 
 
@@ -208,6 +246,7 @@ async function initDB() {
       username TEXT,
       email TEXT,
       friends INTEGER DEFAULT 0,
+      pendingfriends INTEGER DEFAULT 0,
       password TEXT
     )
   `;
@@ -236,7 +275,8 @@ async function pendingpwends() {
   await sql`
   CREATE TABLE IF NOT EXISTS pendingpwends (
   sender TEXT,
-  receiver TEXT
+  receiver TEXT,
+  number INTEGER DEFAULT 0
   )
   `;
 }
