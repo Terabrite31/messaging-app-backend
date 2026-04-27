@@ -241,6 +241,8 @@ async function pendingpwends() {
   `;
 }
 
+pendingpwends();
+
 
 
 
