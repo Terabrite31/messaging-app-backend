@@ -1,12 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const postgres = require("postgres");
+const jwt = require("jsonwebtoken");
 const app = express();
 const sql = postgres(process.env.DATABASE_URL);
 const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
 app.use(cors()); 
 app.use(express.json());
+
+
 
 
 
@@ -129,7 +132,14 @@ let DBpassword = rows[0].password;
 let DBusername = rows[0].username;
 
 if (DBpassword == password) {
+ const token = jwt.sign(
+      { email: email },
+      "secretkey",
+      { expiresIn: "7d" }
+    );
+
     return res.json({
+      token: token,
       status: "correct",
       username: DBusername
     });
@@ -139,6 +149,65 @@ if (DBpassword == password) {
 });
 }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//ui API
+app.post("/ui", async(req,res) => {
+  const token = req.body.token;
+
+  try {
+  let decoded = jwt.verify(token, "secretkey"); 
+  let email = decoded.email;
+
+  let rows = await sql`
+  SELECT username FROM accounts
+  WHERE email = ${email}
+  `;
+
+  let username = rows[0].username;
+  res.json({
+    username: username
+  })
+  } catch {
+    res.json({
+      username: "fails"
+    })
+  }
+
+
+
+
+
+
+
+
+
+
+
+})
+
+
+
+
+
+
+
+
+
 
 
 
