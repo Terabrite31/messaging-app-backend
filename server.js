@@ -2,12 +2,17 @@ const express = require("express");
 const cors = require("cors");
 const postgres = require("postgres");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 const app = express();
 const sql = postgres(process.env.DATABASE_URL);
 const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
-app.use(cors()); 
+app.use(cors({
+  origin: "https://konnn.com",
+  credentials: true
+}));
 app.use(express.json());
+app.use(cookieParser());
 
 
 
@@ -138,10 +143,16 @@ if (DBpassword == password) {
       { expiresIn: "7d" }
     );
 
-    return res.json({
-      token: token,
+    res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  maxAge: 7 * 24 * 60 * 60 * 1000
+});
+
+      return res.json({
       status: "correct",
-      username: DBusername
+     
     });
 } else {
  return res.json({
@@ -167,7 +178,7 @@ if (DBpassword == password) {
 
 //ui API
 app.post("/ui", async(req,res) => {
-  const token = req.body.token;
+    const token = req.cookies.token;
 
   try {
   let decoded = jwt.verify(token, "secretkey"); 
