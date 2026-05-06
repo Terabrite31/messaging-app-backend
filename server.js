@@ -275,8 +275,10 @@ res.json("sent");
 
 
 app.post("/accept", async(req,res) => {
-let email = req.body.email;
+let token = req.body.token;
 
+let decoded = jwt.verify(token, "secretkey");
+let email = decoded.email;
 let answer = await sql`
 SELECT sender FROM pendingpwends
 WHERE receiver = ${email}
