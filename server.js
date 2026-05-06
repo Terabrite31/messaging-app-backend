@@ -226,8 +226,11 @@ app.post("/ui", async(req,res) => {
 //add
 
 app.post("/add", async(req, res) => {
-let email = req.body.email;
+let token = req.body.token;
 let REmail = req.body.REmail;
+
+let decoded = jwt.verify(token, "secretkey");
+let email = decoded.email;
 
 let rows = await sql`
 SELECT email FROM  accounts
