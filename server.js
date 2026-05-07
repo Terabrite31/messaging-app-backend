@@ -164,7 +164,21 @@ if (DBpassword == password) {
 }
 });
 
+//AUTO LOGIN
+app.get("/autologin", async(req,res) => {
+let token = req.cookies.token;
 
+if(!token) {
+  return res.json("failed")
+}
+
+try {
+let data = jwt.verify(token, "secretkey")
+return res.json("success")
+} catch {
+  return res.json("failed")
+}
+})
 
 
 
