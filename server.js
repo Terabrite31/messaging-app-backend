@@ -8,7 +8,7 @@ const sql = postgres(process.env.DATABASE_URL);
 const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
 app.use(cors({
-  origin: "https://konnn.com",
+  origin: "https://www.konnn.com",
   credentials: true
 }));
 app.use(express.json());
