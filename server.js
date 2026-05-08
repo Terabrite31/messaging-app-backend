@@ -266,7 +266,7 @@ app.post("/ui", async(req,res) => {
 //add
 
 app.post("/add", async(req, res) => {
-let token = req.body.token;
+let token = req.cookies.token;
 let REmail = req.body.REmail;
 
 let decoded = jwt.verify(token, "secretkey");
@@ -314,23 +314,29 @@ res.json("sent");
 
 
 
+
+//ACCEPT API
 app.post("/accept", async(req,res) => {
-let token = req.body.token;
+let token = req.cookies.token;
 
 let decoded = jwt.verify(token, "secretkey");
 let email = decoded.email;
-let answer = await sql`
-SELECT sender FROM pendingpwends
+
+let senders = await sql`
+SELECT sender, number
+FROM pendingpwends
 WHERE receiver = ${email}
+ORDER BY number DESC
 `;
 
-  if (answer.length === 0) {
+  if (senders.length === 0) {
     return res.json("no pending requests");
   }
 
-let data = answer[0].sender;
 
-res.json(data)
+res.json({
+data: senders
+})
 
 
 
