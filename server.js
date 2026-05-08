@@ -317,7 +317,7 @@ res.json("sent");
 
 //ACCEPT API
 app.post("/accept", async(req,res) => {
-let token = req.cookies.token;
+const token = req.cookies.token;
 
 let decoded = jwt.verify(token, "secretkey");
 let email = decoded.email;
