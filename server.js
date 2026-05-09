@@ -45,7 +45,7 @@ if (rows.length === 1) {
 
   try {
     await resend.emails.send({
-      from: "power@konnn.com",
+      from: "support-power@konnn.com",
       to: email,
       subject: "for " + email,
       html: `<h1>verification code ${number}</h1>` 
