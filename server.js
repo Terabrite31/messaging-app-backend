@@ -322,7 +322,7 @@ let decoded = jwt.verify(token, "secretkey");
 let email = decoded.email;
 
 let senders = await sql`
-SELECT sender, number
+SELECT sender, number, username
 FROM pendingpwends
 WHERE receiver = ${email}
 ORDER BY number DESC
