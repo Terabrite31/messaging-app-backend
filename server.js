@@ -229,15 +229,6 @@ app.post("/ui", async(req,res) => {
   }
 
 
-
-
-
-
-
-
-
-
-
 })
 
 
@@ -272,6 +263,14 @@ let REmail = req.body.REmail;
 let decoded = jwt.verify(token, "secretkey");
 let email = decoded.email;
 
+let senderusn = await sql`
+SELECT username 
+FROM accounts
+WHERE email = ${email}
+`;
+
+let username = senderusn[0].username;
+
 let rows = await sql`
 SELECT email FROM  accounts
 WHERE email = ${REmail}
@@ -292,8 +291,8 @@ let data = rowss[0].pendingfriends;
 data++;
 
 await sql`
-INSERT INTO pendingpwends (sender, receiver, number)
-VALUES (${email}, ${REmail}, ${data})
+INSERT INTO pendingpwends (sender, receiver, username, number)
+VALUES (${email}, ${REmail}, ${username}, ${data})
 
 `;
 
@@ -375,6 +374,7 @@ initDB();
 
 
 
+
 async function hatdawg() {
 await sql`
 CREATE TABLE IF NOT EXISTS pending (
@@ -395,6 +395,7 @@ async function pendingpwends() {
   CREATE TABLE IF NOT EXISTS pendingpwends (
   sender TEXT,
   receiver TEXT,
+  username TEXT,
   number INTEGER DEFAULT 0
   )
   `;
