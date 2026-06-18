@@ -360,16 +360,28 @@ app.post("/accept", async(req, res) => {
   WHERE email = ${email}
 `;
 
+let rows = await sql`
+SELECT friends FROM accounts
+WHERE email = ${email}
+`;
 
+let number = rows[0].friends;
+
+let rows2 = await sql`
+SELECT friends FROM accounts
+WHERE email = ${receiveremail}
+`;
+
+let number2 = rows2[0].friends;
 
   await sql`
-  INSERT INTO friends (useremail, friendemail)
-  VALUES (${receiveremail}, ${email})
+  INSERT INTO friends (useremail, friendemail, number))
+  VALUES (${receiveremail}, ${email}, ${number2})
   `;
 
   await sql`
   INSERT INTO friends (useremail, friendemail)
-  VALUES (${email}, ${receiveremail})
+  VALUES (${email}, ${receiveremail}, ${number})
   `;
 
   await sql`
