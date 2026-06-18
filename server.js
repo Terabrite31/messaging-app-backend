@@ -314,8 +314,8 @@ res.json("sent");
 
 
 
-//ACCEPT API
-app.post("/accept", async(req,res) => {
+//request API
+app.post("/request", async(req,res) => {
 const token = req.cookies.token;
 
 let decoded = jwt.verify(token, "secretkey");
@@ -339,6 +339,20 @@ data: senders
 
 
 
+})
+
+
+app.get("/accept", async(req, res) => {
+  let token = req.cookies.token;
+  let email = req.query.acceptemail;
+
+  let decoded = jwt.verify(token, "secretkey");
+  let receiveremail = decoded.email;
+
+  await sql`
+  DELETE FROM pendingpwends
+  WHERE sender = ${email} AND receiver = ${receiveremail}
+  `;
 })
 
 
