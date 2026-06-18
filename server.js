@@ -344,7 +344,7 @@ data: senders
 
 app.get("/accept", async(req, res) => {
   let token = req.cookies.token;
-  let email = req.query.acceptemail;
+  let email = req.body.acceptemail;
 
   let decoded = jwt.verify(token, "secretkey");
   let receiveremail = decoded.email;
