@@ -452,16 +452,21 @@ async function pendingpwends() {
 
 pendingpwends();
 
-
 async function friends() {
-  await sql`
-  CREATE TABLE IF NOT EXISTS friends (
-  id SERIAL PRIMARY KEY,
-  user TEXT,
-  friend TEXT,
-  number INTEGER DEFAULT 0
-  )
-  `;
+  try {
+    await sql`
+      CREATE TABLE IF NOT EXISTS friends (
+        id SERIAL PRIMARY KEY,
+        useremail TEXT,
+        friendemail TEXT,
+        number INTEGER DEFAULT 0
+      )
+    `;
+
+    console.log("friends table ready");
+  } catch (err) {
+    console.log("friends table error:", err);
+  }
 }
 
 friends();
