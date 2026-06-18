@@ -353,6 +353,15 @@ app.post("/accept", async(req, res) => {
   DELETE FROM pendingpwends
   WHERE sender = ${email} AND receiver = ${receiveremail}
   `;
+
+  await sql`
+UPDATE accounts 
+SET friends
+  `
+
+
+
+
   res.json("deleted");
 })
 
@@ -418,6 +427,18 @@ async function pendingpwends() {
 
 pendingpwends();
 
+
+async function friends() {
+  await sql`
+  CREATE TABLE IF NOT EXISTS friends (
+  user TEXT,
+  friend TEXT,
+  number INTEGER DEFAULT 0
+  )
+  `;
+}
+
+friends();
 
 
 
