@@ -354,10 +354,6 @@ app.post("/accept", async(req, res) => {
   WHERE sender = ${email} AND receiver = ${receiveremail}
   `;
 
-  await sql`
-UPDATE accounts 
-SET friends
-  `
 
 
 
