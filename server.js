@@ -363,12 +363,12 @@ app.post("/accept", async(req, res) => {
 
 
   await sql`
-  INSERT INTO friends (user, friend)
+  INSERT INTO friends (useremail, friendemail)
   VALUES (${receiveremail}, ${email})
   `;
 
   await sql`
-  INSERT INTO friends (user, friend)
+  INSERT INTO friends (useremail, friendemail)
   VALUES (${email}, ${receiveremail})
   `;
 
