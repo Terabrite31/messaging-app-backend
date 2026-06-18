@@ -431,6 +431,7 @@ pendingpwends();
 async function friends() {
   await sql`
   CREATE TABLE IF NOT EXISTS friends (
+  id SERIAL PRIMARY KEY,
   user TEXT,
   friend TEXT,
   number INTEGER DEFAULT 0
