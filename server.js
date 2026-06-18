@@ -342,7 +342,7 @@ data: senders
 })
 
 
-app.get("/accept", async(req, res) => {
+app.post("/accept", async(req, res) => {
   let token = req.cookies.token;
   let email = req.body.acceptemail;
 
