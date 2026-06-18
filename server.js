@@ -353,6 +353,7 @@ app.post("/accept", async(req, res) => {
   DELETE FROM pendingpwends
   WHERE sender = ${email} AND receiver = ${receiveremail}
   `;
+  res.json("deleted");
 })
 
 
