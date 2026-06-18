@@ -354,11 +354,40 @@ app.post("/accept", async(req, res) => {
   WHERE sender = ${email} AND receiver = ${receiveremail}
   `;
 
+  await sql`
+  UPDATE accounts
+  SET pendingfriends = pendingfriends - 1
+  WHERE email = ${email}
+`;
+
+
+
+  await sql`
+  INSERT INTO friends (user, friend)
+  VALUES (${receiveremail}, ${email})
+  `;
+
+  await sql`
+  INSERT INTO friends (user, friend)
+  VALUES (${email}, ${receiveremail})
+  `;
+
+  await sql`
+  UPDATE accounts
+  SET friends = friends + 1
+  WHERE email = ${email}
+`;
+
+await sql`
+  UPDATE accounts
+  SET friends = friends + 1
+  WHERE email = ${receiveremail}
+`;
 
 
 
 
-  res.json("deleted");
+    res.json("deleted");
 })
 
 
