@@ -303,6 +303,15 @@ if (rows2.length > 0) {
   return res.json("request already sent");
 }
 
+let rows3 = await sql` 
+SELECT * FROM friends
+WHERE friendemail = ${REmail}
+AND useremail = ${email}
+`;
+if (rows3.length > 0) {
+  return res.json("already friends");
+}
+
 let senderusn = await sql`
 SELECT username 
 FROM accounts
