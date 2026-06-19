@@ -245,6 +245,37 @@ app.post("/ui", async(req,res) => {
 
 
 
+//messagelist
+
+app.post("/messagelist", async(req,res) => {
+  let token = req.cookies.token;
+  
+  let decoded = jwt.verify(token, "secretkey");
+  let email = decoded.email;
+  
+  let rows = await sql`
+  SELECT friendemail, number FROM friends
+  WHERE useremail = ${email}
+  ORDER BY number DESC
+  `;
+
+  res.json({
+    data: rows
+  })
+
+
+
+
+
+})
+
+
+
+
+
+
+
+
 
 
 
