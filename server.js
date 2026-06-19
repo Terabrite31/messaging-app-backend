@@ -406,13 +406,13 @@ WHERE email = ${receiveremail}
 let number2 = rows2[0].friends;
 
   await sql`
-  INSERT INTO friends (useremail, friendemail, number))
-  VALUES (${receiveremail}, ${email}, ${number2})
+  INSERT INTO friends (useremail, friendemail)
+  VALUES (${receiveremail}, ${email})
   `;
 
   await sql`
   INSERT INTO friends (useremail, friendemail)
-  VALUES (${email}, ${receiveremail}, ${number})
+  VALUES (${email}, ${receiveremail})
   `;
 
   await sql`
