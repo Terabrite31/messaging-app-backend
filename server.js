@@ -263,20 +263,27 @@ app.post("/messagelist", async(req,res) => {
     data: rows
   })
 
+})
+
+
+
+app.post("/click", async(req,res) => {
+  let token = req.cookies.token;
+  let friendemail = req.body.talkingto;
+
+  let decoded = jwt.verify(token, "secretkey");
+  let email = decoded.email;
+  
+  res.json("success");
+
+
+
+
 
 
 
 
 })
-
-
-
-
-
-
-
-
-
 
 
 
