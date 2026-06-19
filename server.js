@@ -273,8 +273,19 @@ app.post("/click", async(req,res) => {
 
   let decoded = jwt.verify(token, "secretkey");
   let email = decoded.email;
+
+  let rows = await sql`
+  SELECT username FROM accounts
+  WHERE email = ${friendemail}
+  `;
+  let username = rows[0].username;
   
-  res.json("success");
+
+
+
+  res.json({
+    username: username
+  });
 
 
 
@@ -544,6 +555,21 @@ async function friends() {
 }
 
 friends();
+
+
+async function messages() {
+await sql`
+CREATE TABLE IF NOT EXISTS messages (
+  id SERIAL PRIMARY KEY,
+  senderemail TEXT ,
+  receiveremail TEXT,
+  message TEXT,
+  number INTEGER DEFAULT 0
+)
+`;
+}
+
+messages();
 
 
 
