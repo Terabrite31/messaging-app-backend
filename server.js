@@ -294,6 +294,15 @@ let REmail = req.body.REmail;
 let decoded = jwt.verify(token, "secretkey");
 let email = decoded.email;
 
+let rows = await sql` 
+SELECT * FROM pendingpwends
+WHERE receiver = ${REmail}
+AND sender = ${email}
+`;
+if (rows.length > 0) {
+  return res.json("request already sent");
+}
+
 let senderusn = await sql`
 SELECT username 
 FROM accounts
@@ -351,6 +360,7 @@ const token = req.cookies.token;
 
 let decoded = jwt.verify(token, "secretkey");
 let email = decoded.email;
+
 
 let senders = await sql`
 SELECT sender, number, username
