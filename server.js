@@ -294,12 +294,12 @@ let REmail = req.body.REmail;
 let decoded = jwt.verify(token, "secretkey");
 let email = decoded.email;
 
-let rows = await sql` 
+let rows2 = await sql` 
 SELECT * FROM pendingpwends
 WHERE receiver = ${REmail}
 AND sender = ${email}
 `;
-if (rows.length > 0) {
+if (rows2.length > 0) {
   return res.json("request already sent");
 }
 
