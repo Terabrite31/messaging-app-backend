@@ -312,6 +312,10 @@ if (rows2.length > 0) {
   return res.json("request already sent");
 }
 
+if (email === REmail) {
+  return res.json("you cant add yourself");
+}
+
 
 let senderusn = await sql`
 SELECT username 
