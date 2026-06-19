@@ -269,7 +269,7 @@ app.post("/messagelist", async(req,res) => {
 
 app.post("/click", async(req,res) => {
   let token = req.cookies.token;
-  let friendemail = req.body.talkingto;
+  let friendemail = req.body.friendemail;
 
   let decoded = jwt.verify(token, "secretkey");
   let email = decoded.email;
