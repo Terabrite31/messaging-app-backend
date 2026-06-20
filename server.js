@@ -287,14 +287,69 @@ app.post("/click", async(req,res) => {
     username: username
   });
 
+})
 
 
 
 
 
 
+
+
+
+
+
+
+//sendmessage
+app.post("/sendmessage", async(req, res) => {
+  let token = req.cookies.token;
+  let friendemail = req.body.friendemail;
+  let message = req.body.message;
+
+  let decoded = jwt.verify(token, "secretkey");
+  let email = decoded.email;
+
+  await sql`
+  UPDATE friends
+  SET number = number + 1
+  WHERE useremail = ${email} AND friendemail = ${friendemail}
+  `;
+
+  await sql`
+  UPDATE friends
+  SET number = number + 1
+  WHERE useremail = ${friendemail} AND friendemail = ${email}
+  `;
+
+  let nextNumber = await sql`
+  SELECT number FROM friends
+  WHERE useremail = ${email} AND friendemail = ${friendemail}
+  `;
+
+  let number = nextNumber[0].number;
+
+  await sql`
+  INSERT INTO messages (senderemail, receiveremail, message, number)
+  VALUES (${email}, ${friendemail}, ${message}, ${number})
+  `;
+
+
+
+
+  
+
+  res.json("sent");
 
 })
+
+
+
+
+
+
+
+
+
 
 
 
